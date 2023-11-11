@@ -1,5 +1,11 @@
 //Create project
-
+function createProject() {
+    return {
+        name: '',
+        todos: [],
+        dueDate: ''
+    }
+}
 
 
 
