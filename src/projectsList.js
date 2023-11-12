@@ -1,18 +1,9 @@
-//Create project
-function createProject() {
-    return {
-        name: '',
-        todos: [],
-        dueDate: ''
-    }
-}
-
-
-
 //List projects
 
 export default function projectList() {
     const main = document.getElementById('content');
+    main.innerHTML = '';
+    
     const div1 = document.createElement('div');
     div1.classList.add('flex', 'flex-col');
     main.appendChild(div1);
@@ -64,7 +55,7 @@ export default function projectList() {
     th4.textContent = "Due date";
     tr.appendChild(th4);
 
-    
+
     const tbody = document.createElement('tbody');
     table.appendChild(tbody);
 

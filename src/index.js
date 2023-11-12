@@ -1,73 +1,66 @@
 //import functions and modules
 import './style.css';
-import _ from './projects';
-import projectList from './projects';
+import projectList from './projectsList';
+import createProject from './projectObject';
 
+//Store projects
 const projects = [];
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     projectList();
-
     function addClick() {
-        //Display Projects
-        const projects = document.getElementById('listProjects');
-        projects.addEventListener('click', onClick);
+        //Add functionality to buttons
+        const projectsButton = document.getElementById('listProjects');
+        projectsButton.addEventListener('click', onClick);
 
-        //Display Settings
-        const settings = document.getElementById('settings');
-        settings.addEventListener('click', onClick);
+        const settingsButton = document.getElementById('settings');
+        settingsButton.addEventListener('click', onClick);
 
-        //Display Today
-        const today = document.getElementById('today');
-        today.addEventListener('click', onClick);
+        const todayButton = document.getElementById('today');
+        todayButton.addEventListener('click', onClick);
 
-        //Display this week
-        const thisWeek = document.getElementById('thisWeek');
-        thisWeek.addEventListener('click', onClick);
+        const thisWeekButton = document.getElementById('thisWeek');
+        thisWeekButton.addEventListener('click', onClick);
 
-        //Display Add Task
-        const addTask = document.getElementById('addTask');
-        addTask.addEventListener('click', onClick);
+        const addTaskButton = document.getElementById('addTask');
+        addTaskButton.addEventListener('click', onClick);
 
-        //Display New Project
-        const newProject = document.getElementById('newProject');
-        newProject.addEventListener('click',  onClick);
+        const newProjectButton = document.getElementById('newProject');
+        newProjectButton.addEventListener('click', onClick);
 
-        //Display calendar
-        const calendar = document.getElementById('calendar');
-        calendar.addEventListener('click',  onClick);
+        const calendarButton = document.getElementById('calendar');
+        calendarButton.addEventListener('click', onClick);
 
-        const btnList = [addTask, newProject, today, thisWeek, settings, calendar];
+        const btnList = [projectsButton, settingsButton, todayButton, thisWeekButton, addTaskButton, newProjectButton, calendarButton];
 
+        //On click invoke specific function
         function onClick() {
-            if (this === addTask) {
+            if (this === addTaskButton) {
                 console.log('Add Task');
             }
-            else if (this === newProject) {
-                console.log('New Project');
+            else if (this === newProjectButton) {
+                createProject(projects);
             }
-            else if (this === today) {
+            else if (this === todayButton) {
                 console.log('Today');
             }
-            else if (this === thisWeek) {
+            else if (this === thisWeekButton) {
                 console.log('This Week');
             }
-            else if (this === settings) {
+            else if (this === settingsButton) {
                 console.log('Settings');
             }
-            else if (this === calendar) {
+            else if (this === calendarButton) {
                 console.log('Calendar');
             }
-            else if (this === projects) {
-                console.log('Projects');
+            else if (this === projectsButton) {
+                projectList();
             }
-
             btnList.forEach(btn => {
                 btn.removeEventListener('click', onClick);
             });
+           addClick();
         }
-        addClick();
     }
     addClick();
-})
-
+});
