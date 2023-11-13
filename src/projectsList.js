@@ -3,7 +3,7 @@
 export default function projectList() {
     const main = document.getElementById('content');
     main.innerHTML = '';
-    
+
     const div1 = document.createElement('div');
     div1.classList.add('flex', 'flex-col');
     main.appendChild(div1);
@@ -57,40 +57,76 @@ export default function projectList() {
 
 
     const tbody = document.createElement('tbody');
+    tbody.setAttribute('id', 'tbody');
     table.appendChild(tbody);
 
-    //Add project in the table
-    const tr2 = document.createElement('tr');
-    tr2.classList.add("border-b", "dark:border-neutral-500");
-    tbody.appendChild(tr2);
+    storegeList();
+}
 
-    const td1 = document.createElement('td');
-    td1.classList.add("whitespace-nowrap", "px-6", "py-4", "font-medium");
-    td1.textContent = "1";
-    tr2.appendChild(td1);
+//List projects from storege
 
-    const td2 = document.createElement('td');
-    td2.classList.add("whitespace-nowrap", "px-6", "py-4");
-    td2.textContent = "Hallo";
-    tr2.appendChild(td2);
+function storegeList() {
+    const projects = [];
 
-    const td3 = document.createElement('td');
-    td3.classList.add("whitespace-nowrap", "px-6", "py-4");
-    td3.textContent = "24";
-    tr2.appendChild(td3);
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = JSON.parse(localStorage.getItem(key));
+        projects.push(value);
+    }
 
-    const td4 = document.createElement('td');
-    td4.classList.add("whitespace-nowrap", "px-6", "py-4");
-    td4.textContent = "12/12/2023";
-    tr2.appendChild(td4);
+    console.log(projects);
 
-    const td5 = document.createElement('td');
-    td5.classList.add("px-0", "py-2");
-    td5.innerHTML = `<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">View</button>`;
-    tr2.appendChild(td5);
+    const tbody = document.getElementById('tbody');
 
-    const td6 = document.createElement('td');
-    td6.classList.add("px-0", "py-2");
-    td6.innerHTML = `<button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>`;
-    tr2.appendChild(td6);
+    if (projects.length === 0) {
+        const h2 = document.createElement('h2');
+        h2.classList.add("font-semibold", "text-xl", "text-gray-600", "my-5");
+        h2.textContent = "No projects created";
+        tbody.appendChild(h2);
+    } else {
+        tbody.innerHTML = '';
+        projects.forEach(project => {
+
+            const tr2 = document.createElement('tr');
+            tr2.classList.add("border-b", "dark:border-neutral-500");
+            tbody.appendChild(tr2);
+
+            const td1 = document.createElement('td');
+            td1.classList.add("whitespace-nowrap", "px-6", "py-4", "font-medium");
+            td1.textContent = project.id;
+            tr2.appendChild(td1);
+
+            const td2 = document.createElement('td');
+            td2.classList.add("whitespace-nowrap", "px-6", "py-4");
+            td2.textContent = project.name;
+            tr2.appendChild(td2);
+
+            const td3 = document.createElement('td');
+            td3.classList.add("whitespace-nowrap", "px-6", "py-4");
+            let todos = function () {
+                let count = 0;
+                project.todos.forEach(todo => {
+                    count++;
+                })
+                return count
+            };
+            td3.textContent = todos();
+            tr2.appendChild(td3);
+
+            const td4 = document.createElement('td');
+            td4.classList.add("whitespace-nowrap", "px-6", "py-4");
+            td4.textContent = project.dueDate;
+            tr2.appendChild(td4);
+
+            const td5 = document.createElement('td');
+            td5.classList.add("px-0", "py-2");
+            td5.innerHTML = `<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">View</button>`;
+            tr2.appendChild(td5);
+
+            const td6 = document.createElement('td');
+            td6.classList.add("px-0", "py-2");
+            td6.innerHTML = `<button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>`;
+            tr2.appendChild(td6);
+        });
+    }
 }

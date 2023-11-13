@@ -3,9 +3,6 @@ import './style.css';
 import projectList from './projectsList';
 import createProject from './projectObject';
 
-//Store projects
-const projects = [];
-
 document.addEventListener('DOMContentLoaded', function () {
     projectList();
     function addClick() {
@@ -39,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log('Add Task');
             }
             else if (this === newProjectButton) {
-                createProject(projects);
+                createProject();
             }
             else if (this === todayButton) {
                 console.log('Today');

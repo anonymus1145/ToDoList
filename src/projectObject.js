@@ -3,23 +3,36 @@ function projectObject() {
     return {
         name: '',
         todos: [],
-        dueDate: ''
+        dueDate: '',
+        id: 0
     }
 }
 
-export default function createProject(projectsArray) {
+export default function createProject() {
     const newProject = projectObject();
     createProjectElements();
 
     //Add functionality to button
     const createButton = document.getElementById('submitProject');
     createButton.addEventListener('click', function () {
-        newProject.name = document.getElementById('full_name').value;
-        newProject.dueDate = document.getElementById('due_date').value;
-        let task = document.getElementById('description').value;
-        newProject.todos.push(task);
+        if (document.getElementById('full_name').value === '' || document.getElementById('due_date').value === '' || document.getElementById('description').value === '') {
+            alert('Please fill in all fields');
+            return;
+        } else {
+            newProject.name = document.getElementById('full_name').value;
+            newProject.dueDate = document.getElementById('due_date').value;
+            let task = document.getElementById('description').value;
+            newProject.todos.push(task);
+            newProject.id = Math.floor(Math.random() * 1000);
+            
+            localStorage.setItem(newProject.name , JSON.stringify(newProject));
+        }
+        alert('Project created');
 
-        projectsArray.push(newProject);
+        //Reset the values of the object
+        newProject.name = '';
+        newProject.todos = [];
+        newProject.dueDate = '';
     });
 }
 
@@ -69,6 +82,7 @@ function createProjectElements() {
     input.setAttribute('type', 'text');
     input.setAttribute('name', 'full_name');
     input.setAttribute('id', 'full_name');
+    input.required = true;
     input.classList.add("h-10", "border", "mt-1", "rounded", "px-4", "w-full", "bg-gray-50");
     div7.appendChild(input);
 
@@ -85,6 +99,7 @@ function createProjectElements() {
     input2.setAttribute('type', 'date');
     input2.setAttribute('name', 'due_date');
     input2.setAttribute('id', 'due_date');
+    input2.required = true;
     input2.classList.add("h-10", "border", "mt-1", "rounded", "px-4", "w-full", "bg-gray-50");
     div8.appendChild(input2);
 
@@ -101,6 +116,7 @@ function createProjectElements() {
     input3.setAttribute('type', 'text');
     input3.setAttribute('name', 'description');
     input3.setAttribute('id', 'description');
+    input3.required = true;
     input3.classList.add("h-10", "border", "mt-1", "rounded", "px-4", "w-full", "bg-gray-50");
     div9.appendChild(input3);
 
