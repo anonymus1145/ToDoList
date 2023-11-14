@@ -74,8 +74,6 @@ function storegeList() {
         projects.push(value);
     }
 
-    console.log(projects);
-
     const tbody = document.getElementById('tbody');
 
     if (projects.length === 0) {
@@ -121,12 +119,44 @@ function storegeList() {
             const td5 = document.createElement('td');
             td5.classList.add("px-0", "py-2");
             td5.innerHTML = `<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">View</button>`;
+            td5.setAttribute('id', 'viewbtn');
+            td5.addEventListener('click', viewProject);
             tr2.appendChild(td5);
 
             const td6 = document.createElement('td');
             td6.classList.add("px-0", "py-2");
+            td6.setAttribute('id', 'deletebtn');
             td6.innerHTML = `<button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>`;
+            td6.addEventListener('click', deleteButton);
             tr2.appendChild(td6);
         });
+    }
+}
+
+function deleteButton() {
+    const parent = this.previousSibling.previousSibling.previousSibling.previousSibling.innerHTML;
+
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = JSON.parse(localStorage.getItem(key));
+        if (value.name === parent) {
+            localStorage.removeItem(key);
+        }
+    }
+    window.location.reload();
+}
+
+function viewProject() {
+    const parent = this.previousSibling.previousSibling.previousSibling.previousSibling.innerHTML;
+    
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = JSON.parse(localStorage.getItem(key));
+        if (value.name === parent) {
+            const name = value.name;
+            const todos = value.todos;
+            const dueDate = value.dueDate;
+            const id = value.id;
+        }
     }
 }
