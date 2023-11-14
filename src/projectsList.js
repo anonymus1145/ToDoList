@@ -146,17 +146,127 @@ function deleteButton() {
     window.location.reload();
 }
 
+let todos = [];
+let name = '';
+
 function viewProject() {
-    const parent = this.previousSibling.previousSibling.previousSibling.previousSibling.innerHTML;
-    
+    const parent = this.previousSibling.previousSibling.previousSibling.innerHTML;
+
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         const value = JSON.parse(localStorage.getItem(key));
+
         if (value.name === parent) {
-            const name = value.name;
-            const todos = value.todos;
+            name = value.name;
+            todos = value.todos;
             const dueDate = value.dueDate;
             const id = value.id;
+
+            const main = document.getElementById('content');
+            main.innerHTML = '';
+
+            let div1 = document.createElement('div');
+            div1.classList.add("container", "max-w-screen-lg", "mx-auto");
+            main.appendChild(div1);
+
+            let h2 = document.createElement('h2');
+            h2.innerText = "Project" + " " + name;
+            h2.classList.add("font-semibold", "text-xl", "text-gray-600", "my-5");
+            div1.appendChild(h2);
+
+            let div2 = document.createElement('div');
+            div2.classList.add("bg-white", "rounded", "shadow-lg", "p-4", "md:p-8", "px-4", "mb-6");
+            div1.appendChild(div2);
+
+            let div3 = document.createElement('div');
+            div3.classList.add("grid", "gap-4", "gap-y-2", "text-sm", "grid-cols-1", "lg:grid-cols-3");
+            div2.appendChild(div3);
+
+            let div4 = document.createElement('div');
+            div4.classList.add("text-gray-600");
+            div3.appendChild(div4);
+
+            let div5 = document.createElement('div');
+            div5.classList.add("lg:col-span-2");
+            div2.appendChild(div5);
+
+            let div6 = document.createElement('div');
+            div6.classList.add("grid", "gap-4", "gap-y-2", "text-sm", "grid-cols-1", "md:grid-cols-5");
+            div5.appendChild(div6);
+
+            let div7 = document.createElement('div');
+            div7.classList.add("md:col-span-5");
+            div6.appendChild(div7);
+
+            let label = document.createElement('label');
+            label.setAttribute('for', 'full_name');
+            label.innerText = "Project Name";
+            div7.appendChild(label);
+
+            let p = document.createElement('p');
+            p.setAttribute('name', 'full_name');
+            p.setAttribute('id', 'full_name');
+            p.innerText = name;
+            p.classList.add("h-10", "border", "mt-1", "rounded", "px-4", "w-full", "bg-gray-50");
+            div7.appendChild(p);
+
+            let div8 = document.createElement('div');
+            div8.classList.add("md:col-span-5");
+            div6.appendChild(div8);
+
+            let label2 = document.createElement('label');
+            label2.setAttribute('for', 'due_date');
+            label2.innerText = "Due Date";
+            div8.appendChild(label2);
+
+            let p2 = document.createElement('p');
+            p2.setAttribute('name', 'due_date');
+            p2.setAttribute('id', 'due_date');
+            p2.innerText = dueDate;
+            p2.classList.add("h-10", "border", "mt-1", "rounded", "px-4", "w-full", "bg-gray-50");
+            div8.appendChild(p2);
+
+            let div9 = document.createElement('div');
+            div9.classList.add("md:col-span-5");
+            div6.appendChild(div9);
+
+            let label3 = document.createElement('label');
+            label3.setAttribute('for', 'description');
+            label3.innerText = "Todo's";
+            div9.appendChild(label3);
+
+            todos.forEach(todo => {
+                let p3 = document.createElement('p');
+                p3.setAttribute('name', 'description');
+                p3.setAttribute('id', 'description');
+                p3.innerText = todo;
+                p3.classList.add("h-10", "border", "mt-1", "rounded", "px-4", "w-full", "bg-gray-50");
+                div9.appendChild(p3);
+            })
+
+            let button = document.createElement('button');
+            button.setAttribute('id', 'addTodo');
+            button.addEventListener('click', addTodo);
+            button.classList.add("bg-blue-500", "hover:bg-blue-700", "text-white", "font-bold", "py-2", "px-4", "rounded", "my-5");
+            button.innerText = "Add Todo";
+            div9.appendChild(button);
+        }
+    }
+}
+
+function addTodo() {
+    const newTodo = prompt("Add a new task for your project");
+    todos.push(newTodo);
+
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = JSON.parse(localStorage.getItem(key));
+
+        if (value.name === name) {
+            value.todos = todos;
+            localStorage.setItem(key, JSON.stringify(value));
+
+            console.log(value);
         }
     }
 }
